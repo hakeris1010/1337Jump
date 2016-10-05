@@ -4,7 +4,7 @@
 
 void uzdtest()
 {
-    World wrld("nyan.jpg", 0, 1); // pasaulis, kuriame sokineja zmogeliukas
+    World wrld("nyan.jpg", 0, 2); // pasaulis, kuriame sokineja zmogeliukas
     Entity ents[3];                   // random butybes, skirtos testavimui
     Jumper *jmp = new Jumper(100, 20, 200); // sokinetojas.
 

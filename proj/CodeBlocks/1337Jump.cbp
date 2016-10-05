@@ -35,12 +35,16 @@
 			<Add directory="../../extlib/SFML/include" />
 		</Compiler>
 		<Linker>
-			<Add library="sfml-main" />
+			<Add option="-mwindows" />
 			<Add library="sfml-graphics-s" />
 			<Add library="sfml-window-s" />
 			<Add library="sfml-system-s" />
 			<Add library="opengl32" />
+			<Add library="glu32" />
+			<Add library="winmm" />
+			<Add library="jpeg" />
 			<Add directory="../../extlib/SFML/lib" />
+			<Add directory="../../extlib/SFML/extlibs/libs-mingw/x86" />
 		</Linker>
 		<Unit filename="../../src/main.cpp" />
 		<Unit filename="../../src/world.cpp" />
