@@ -1,7 +1,8 @@
 #include <iostream>
+#include <SFML/Graphics.hpp>
 #include "world.h"
 
-int main()
+void uzdtest()
 {
     World wrld("nyan.jpg", 0, 1); // pasaulis, kuriame sokineja zmogeliukas
     Entity ents[3];                   // random butybes, skirtos testavimui
@@ -29,6 +30,27 @@ int main()
 
     delete jmp;
     std::cout<<"\nEnt.count: "<<Entity::getCount()<<"\n\n";
+}
+
+int main()
+{
+    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+    sf::CircleShape shape(100.f);
+    shape.setFillColor(sf::Color::Green);
+
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        window.clear();
+        window.draw(shape);
+        window.display();
+    }
 
     return 0;
 }

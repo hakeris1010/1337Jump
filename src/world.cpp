@@ -71,7 +71,7 @@ const std::vector<std::string>& Jumper::getProperties()
     return props;
 }
 
-const std::vector<int>& Jumper::getJumperProps() const
+std::vector<int> Jumper::getJumperProps() const
 {
     return std::vector<int>({hp, atk, jumpHeight});
 }

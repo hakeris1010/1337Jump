@@ -29,16 +29,18 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=c++11" />
 			<Add option="-Wall" />
 			<Add option="-DSFML_STATIC" />
-			<Add directory="C:/SFML-2.1/include" />
+			<Add directory="../../extlib/SFML/include" />
 		</Compiler>
 		<Linker>
+			<Add library="sfml-main" />
 			<Add library="sfml-graphics-s" />
 			<Add library="sfml-window-s" />
 			<Add library="sfml-system-s" />
-			<Add library="stdc++" />
-			<Add directory="C:/SFML-2.1/lib" />
+			<Add library="opengl32" />
+			<Add directory="../../extlib/SFML/lib" />
 		</Linker>
 		<Unit filename="../../src/main.cpp" />
 		<Unit filename="../../src/world.cpp" />

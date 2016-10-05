@@ -110,7 +110,7 @@ public:
     ~Jumper(){ }
 
     const std::vector<std::string>& getProperties() override;
-    const std::vector<int>& getJumperProps() const;
+    std::vector<int> getJumperProps() const;
 
     void jumpUp(World& wrld);
     void jumpUp(World& wrld, int newJumpHeight);
