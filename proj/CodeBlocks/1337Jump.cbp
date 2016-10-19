@@ -43,10 +43,17 @@
 			<Add library="glu32" />
 			<Add library="winmm" />
 			<Add library="jpeg" />
+			<Add library="sfml-audio-s" />
 			<Add directory="../../extlib/SFML/lib" />
 			<Add directory="../../extlib/SFML/extlibs/libs-mingw/x86" />
 		</Linker>
+		<Unit filename="../../src/entity.cpp" />
+		<Unit filename="../../src/entity.h" />
+		<Unit filename="../../src/jumper.cpp" />
+		<Unit filename="../../src/jumper.h" />
+		<Unit filename="../../src/loader.h" />
 		<Unit filename="../../src/main.cpp" />
+		<Unit filename="../../src/resources.h" />
 		<Unit filename="../../src/world.cpp" />
 		<Unit filename="../../src/world.h" />
 		<Extensions>

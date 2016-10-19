@@ -77,66 +77,10 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const World& wrld);
 };
 
-class Entity
-{
-private:
-    static size_t counter;
-protected:
-    std::string spritePath;
-    std::vector<std::string> props;
-
-public:
-    Entity(){ counter++; }
-    Entity(std::string spPat);
-    Entity(std::initializer_list<std::string> lst);
-    ~Entity(){ counter--; }
-
-    virtual const std::vector<std::string>& getProperties();
-    std::string getSpritePath() const;
-    static size_t getCount(){ return counter; }
-
-    friend std::ostream& operator<<(std::ostream& os, const Entity& ent);
-};
-
-class Jumper : Entity
-{
-private:
-    int hp;
-    int atk;
-    int jumpHeight;
-public:
-    Jumper(){ }
-    Jumper(int _hp, int _atk, int _jmpHgt);
-    ~Jumper(){ }
-
-    const std::vector<std::string>& getProperties() override;
-    std::vector<int> getJumperProps() const;
-
-    void jumpUp(World& wrld);
-    void jumpUp(World& wrld, int newJumpHeight);
-
-    friend std::ostream& operator<<(std::ostream& os, const Jumper& ent); //friend shower, to access priv fields
-};
-
 //showers
 inline std::ostream& operator<<(std::ostream& os, const World& wrld)
 {
     return os<<"World: "<<wrld.bckgrImg<<", "<<(int)wrld.difficulty<<", "<<(int)wrld.loadType<<", "<<wrld.height;
-}
-
-inline std::ostream& operator<<(std::ostream& os, const Entity& ent)
-{
-    os<<"Entity: ";
-    for(auto i = ent.props.begin(); i < ent.props.end(); ++i)
-    {
-        os<<*i<<", ";
-    }
-    return os<<ent.spritePath;
-}
-
-inline std::ostream& operator<<(std::ostream& os, const Jumper& jmp)
-{
-    return os<<"Jumper: "<<jmp.spritePath<<", "<<jmp.hp<<", "<<jmp.atk<<", "<<jmp.jumpHeight;
 }
 
 #endif // WORLD_H_INCLUDED

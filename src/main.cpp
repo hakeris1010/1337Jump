@@ -1,6 +1,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "world.h"
+#include "UZD/world.h"
 
 void uzdtest()
 {
@@ -35,6 +35,9 @@ void uzdtest()
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+    window.setVerticalSyncEnabled(true);
+    window.setFramerateLimit(60);
+
     sf::CircleShape shape(100.f);
     shape.setFillColor(sf::Color::Green);
 
