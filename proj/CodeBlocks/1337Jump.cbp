@@ -33,27 +33,40 @@
 			<Add option="-Wall" />
 			<Add option="-DSFML_STATIC" />
 			<Add directory="../../extlib/SFML/include" />
+			<Add directory="../../extlib/Catch" />
 		</Compiler>
 		<Linker>
 			<Add option="-mwindows" />
-			<Add library="sfml-graphics-s" />
-			<Add library="sfml-window-s" />
-			<Add library="sfml-system-s" />
-			<Add library="opengl32" />
-			<Add library="glu32" />
-			<Add library="winmm" />
-			<Add library="jpeg" />
-			<Add library="sfml-audio-s" />
+			<Add option="-mconsole" />
+			<Add option="-lsfml-graphics-s" />
+			<Add option="-lsfml-window-s" />
+			<Add option="-lsfml-system-s" />
+			<Add option="-lsfml-audio-s" />
+			<Add option="-ljpeg" />
+			<Add option="-lopengl32" />
+			<Add option="-lglu32" />
+			<Add option="-lwinmm" />
 			<Add directory="../../extlib/SFML/lib" />
 			<Add directory="../../extlib/SFML/extlibs/libs-mingw/x86" />
 		</Linker>
+		<Unit filename="../../src/GrylloEngine/contexts.hpp" />
 		<Unit filename="../../src/entity.cpp" />
 		<Unit filename="../../src/entity.h" />
 		<Unit filename="../../src/jumper.cpp" />
 		<Unit filename="../../src/jumper.h" />
 		<Unit filename="../../src/loader.h" />
+		<Unit filename="../../src/logger.cpp" />
+		<Unit filename="../../src/logger.h" />
 		<Unit filename="../../src/main.cpp" />
+		<Unit filename="../../src/physics.cpp" />
+		<Unit filename="../../src/physics.h" />
 		<Unit filename="../../src/resources.h" />
+		<Unit filename="../../src/threadstate.cpp" />
+		<Unit filename="../../src/threadstate.h" />
+		<Unit filename="../../src/widgets.cpp" />
+		<Unit filename="../../src/widgets.h" />
+		<Unit filename="../../src/windowrunner.cpp" />
+		<Unit filename="../../src/windowrunner.h" />
 		<Unit filename="../../src/world.cpp" />
 		<Unit filename="../../src/world.h" />
 		<Extensions>

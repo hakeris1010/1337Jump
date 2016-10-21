@@ -1,4 +1,5 @@
 #include "entity.h"
+#include "logger.h"
 
 size_t Entity::counter = 0; //initialize
 
@@ -15,6 +16,7 @@ const std::vector<std::string>& Entity::getProperties()
 
 std::string Entity::getSpritePath() const
 {
+    mout<<spritePath<<"\n";
     return spritePath;
 }
 

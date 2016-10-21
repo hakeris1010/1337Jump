@@ -5,7 +5,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-namespace JumpGame
+namespace Jump
 {
 
 class ResourceLoader

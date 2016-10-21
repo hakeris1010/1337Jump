@@ -1,6 +1,9 @@
 #include <iostream>
+#include "logger.h"
 #include <SFML/Graphics.hpp>
-#include "UZD/world.h"
+#include "world.h"
+#include "entity.h"
+#include "jumper.h"
 
 void uzdtest()
 {
@@ -11,7 +14,7 @@ void uzdtest()
     for(int i=0; i<3; i++) //sukuriam 3 butybes ir priskiriam props'am skaicius.
         ents[i] = Entity({std::string(1, '0'+i)});
 
-    std::cout<<"--- Start ---\n"<<wrld<<"\n"<<*jmp<<"\n"; //parodom kokia situacija pradzioje
+    mout<<"--- Start ---\n"<<wrld<<"\n"<<*jmp<<"\n"; //parodom kokia situacija pradzioje
     for(int i=0; i<3; i++)
         std::cout<<"ent["<<i<<"]: "<<ents[i]<<"\n";
     std::cout<<"\nEnt.count: "<<Entity::getCount()<<"\n\n";
@@ -32,7 +35,7 @@ void uzdtest()
     std::cout<<"\nEnt.count: "<<Entity::getCount()<<"\n\n";
 }
 
-int main()
+void sfmlTest()
 {
     sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
     window.setVerticalSyncEnabled(true);
@@ -54,6 +57,12 @@ int main()
         window.draw(shape);
         window.display();
     }
+}
+
+int main()
+{
+    std::cout<<"bom.\n";
+    uzdtest();
 
     return 0;
 }

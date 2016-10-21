@@ -2,14 +2,14 @@ CC= g++
 RCC= windres
 
 CFLAGS= -Wall -g -std=c++11 
-LINKFLAGS= -mwindows
+LINKFLAGS= -mwindows -mconsole
 RCCFLAGS= -O coff
 
 INCLUDES=  -I"extlib/SFML/include"
 LIBCLUDES= -L"extlib/SFML/lib" -L"extlib/SFML/extlibs/libs-mingw/x86"
 DEFINES= -DSFML_STATIC
 
-LINKLIBS= -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -ljpeg -lopengl32 -lglu32 -lwinmm 
+LINKLIBS= -lsfml-graphics-s -lsfml-window-s -lsfml-system-s -lsfml-audio-s -ljpeg -lopengl32 -lglu32 -lwinmm 
 
 SRCFILES= $(wildcard src/*.cpp src/*/*.cpp) #our sources and resources
 RESFILES= $(wildcard res/*.rc)
