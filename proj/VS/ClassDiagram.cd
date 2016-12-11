@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Gryl::VideoMode" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>root\src\GrylloEngine\contexts.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gryl::WindowRunner" Collapsed="true">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgCgCAAAAEAIAAAAAigBEAAAAAAAAABIAEBAAgAAAAA=</HashCode>
+      <FileName>root\src\GrylloEngine\contexts.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gryl::Widget" Collapsed="true">
+    <Position X="6" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>root\src\GrylloEngine\widgets.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gryl::Button" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>root\src\GrylloEngine\widgets.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Jump::ResourceLoader" Collapsed="true">
+    <Position X="4.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAgAEAAAAAAAAAACAAAAAgAAEAAAA=</HashCode>
+      <FileName>root\src\loader.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HLog::Logger" Collapsed="true">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAQQQAAAAIEAAABABDAAAAAQAAABAUAABAAAAAAAAA=</HashCode>
+      <FileName>root\src\GrylloEngine\logger.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Gryl::ThreadState" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>root\src\GrylloEngine\threadstate.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Gryl::GraphicThreadState" Collapsed="true">
+    <Position X="3.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>root\src\GrylloEngine\threadstate.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Gryl::WindowListener" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEBAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>root\src\GrylloEngine\windowhelpers.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Gryl::WindowEventListener" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>root\src\GrylloEngine\windowhelpers.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Jump::GameProcessorThreadState" Collapsed="true">
+    <Position X="2" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>root\src\GrylloEngine\threadstate.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="HLog::OutMode" Collapsed="true">
+    <Position X="10.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAEAAAIAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>root\src\GrylloEngine\logger.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -13,6 +13,7 @@
 				<Option compiler="gnu_gcc_mingw_new_compiler" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-std=c++14" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -29,7 +30,6 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-std=c++11" />
 			<Add option="-Wall" />
 			<Add option="-DSFML_STATIC" />
 			<Add directory="../../extlib/SFML/include" />
@@ -50,23 +50,25 @@
 			<Add directory="../../extlib/SFML/extlibs/libs-mingw/x86" />
 		</Linker>
 		<Unit filename="../../src/GrylloEngine/contexts.hpp" />
+		<Unit filename="../../src/GrylloEngine/logger.cpp" />
+		<Unit filename="../../src/GrylloEngine/logger.h" />
+		<Unit filename="../../src/GrylloEngine/threadstate.cpp" />
+		<Unit filename="../../src/GrylloEngine/threadstate.h" />
+		<Unit filename="../../src/GrylloEngine/widgets.cpp" />
+		<Unit filename="../../src/GrylloEngine/widgets.h" />
+		<Unit filename="../../src/GrylloEngine/windowhelpers.cpp" />
+		<Unit filename="../../src/GrylloEngine/windowhelpers.h" />
+		<Unit filename="../../src/GrylloEngine/windowrunner.cpp" />
+		<Unit filename="../../src/GrylloEngine/windowrunner.h" />
 		<Unit filename="../../src/entity.cpp" />
 		<Unit filename="../../src/entity.h" />
 		<Unit filename="../../src/jumper.cpp" />
 		<Unit filename="../../src/jumper.h" />
 		<Unit filename="../../src/loader.h" />
-		<Unit filename="../../src/logger.cpp" />
-		<Unit filename="../../src/logger.h" />
 		<Unit filename="../../src/main.cpp" />
 		<Unit filename="../../src/physics.cpp" />
 		<Unit filename="../../src/physics.h" />
 		<Unit filename="../../src/resources.h" />
-		<Unit filename="../../src/threadstate.cpp" />
-		<Unit filename="../../src/threadstate.h" />
-		<Unit filename="../../src/widgets.cpp" />
-		<Unit filename="../../src/widgets.h" />
-		<Unit filename="../../src/windowrunner.cpp" />
-		<Unit filename="../../src/windowrunner.h" />
 		<Unit filename="../../src/world.cpp" />
 		<Unit filename="../../src/world.h" />
 		<Extensions>

@@ -65,3 +65,6 @@ Temporary Items
 bin/
 obj/
 .vs/
+
+# In this project
+proj/vs/root
