@@ -26,12 +26,15 @@ protected:
 
 public:
     Widget();
-    Widget(const WidgetProperties&, const std::vector< WidgetEventListener >&);
+    Widget(const WidgetProperties&, const std::vector< WidgetEventListener >& = std::vector<WidgetEventListener>());
     virtual ~Widget();
 
     virtual void setWidgetProperties(const WidgetProperties& _props);
-    virtual void addListener(const WidgetEventListener& _list);
     virtual void addInnerWidget( Gryl::Widget& widg );
+    virtual void addListener(const WidgetEventListener& _list);
+
+    virtual void processEvent(Event ev){ }
+    virtual void updateView(){ }
 
     const std::vector<std::shared_ptr<Gryl::Widget>>& getInnerWidgetVector() const;
     unsigned int getWidgetInstanceCount() const;

@@ -62,7 +62,7 @@ void sfmlTest()
 
 void GrylTest()
 {
-    Gryl::WindowRunner wnd(false);
+    /*Gryl::WindowRunner wnd(false);
 
     std::function< void( std::shared_ptr<Gryl::Widget> )> funk( [](std::shared_ptr<Gryl::Widget> wd){
         sf::RenderWindow& window = ( std::dynamic_pointer_cast< Gryl::WindowRunner >(wd) )->getSfmlWindowRef();
@@ -96,7 +96,7 @@ void GrylTest()
                                       return 1;
                               });
 
-    wnd.addListener(lst);
+    wnd.addListener(lst);*/
 }
 
 int main()
@@ -104,6 +104,8 @@ int main()
     std::cout<<"bom.\n";
     //uzdtest();
     sfmlTest();
+
+    mout<<"Nyaa\n";
 
     return 0;
 }

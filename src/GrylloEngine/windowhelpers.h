@@ -21,9 +21,9 @@ struct Event
 struct EventHandler
 {
     EventHandler();
-    EventHandler(std::function )
+    //EventHandler(std::function )
     virtual ~EventHandler();
-    virtual long operator()(std::shared_ptr<Widget> par, const Event& ev); //we return long value NonZero if event occured.
+    virtual long checkEvent(std::shared_ptr<Widget> par, const Event& ev); //we return long value NonZero if event occured.
 
     //Protected (or private) stuff is intended to be inheriatable.
 };

@@ -23,7 +23,7 @@
 #include <cstdarg>
 #include <cstdio>
 
-#define HLOGF(...) printf(__VA_ARGS__) // Hlog logger macro - for default usage.
+#define HLOGF(...) mout.cPrintf(__VA_ARGS__) // Hlog logger macro - for default usage.
 
 namespace HLog
 {
