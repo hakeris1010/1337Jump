@@ -36,74 +36,19 @@ void uzdtest()
     std::cout<<"\nEnt.count: "<<Entity::getCount()<<"\n\n";
 }
 
-void sfmlTest()
-{
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    window.setVerticalSyncEnabled(true);
-    window.setFramerateLimit(60);
-
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
-}
-
 void GrylTest()
 {
-    /*Gryl::WindowRunner wnd(false);
-
-    std::function< void( std::shared_ptr<Gryl::Widget> )> funk( [](std::shared_ptr<Gryl::Widget> wd){
-        sf::RenderWindow& window = ( std::dynamic_pointer_cast< Gryl::WindowRunner >(wd) )->getSfmlWindowRef();
-
-        window.create(sf::VideoMode(200, 200), "SFML works!");
-        window.setVerticalSyncEnabled(true);
-        window.setFramerateLimit(60);
-
-        sf::CircleShape shape(100.f);
-        shape.setFillColor(sf::Color::Green);
-
-        while (window.isOpen())
-        {
-            sf::Event event;
-            while (window.pollEvent(event))
-            {
-                if (event.type == sf::Event::Closed)
-                    window.close();
-            }
-
-            window.clear();
-            window.draw(shape);
-            window.display();
-        }
-    } );
-
-    Gryl::WidgetEventListener lst(std::shared_ptr<Gryl::WindowRunner>(&wnd),
-                              funk,
-                              [](std::shared_ptr<Gryl::Widget> par, const Gryl::Event& ev)->long {
-                                  if(ev.e.type==sf::Event::Closed)
-                                      return 1;
-                              });
-
-    wnd.addListener(lst);*/
+    Gryl::WindowRunner wr;
+    wr.create(false, "Gryl::Test");
+    wr.startListening();
 }
 
 int main()
 {
     std::cout<<"bom.\n";
     //uzdtest();
-    sfmlTest();
+    //sfmlTest();
+    GrylTest();
 
     mout<<"Nyaa\n";
 

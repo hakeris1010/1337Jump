@@ -33,7 +33,7 @@
 			<Add option="-std=c++14" />
 			<Add option="-DSFML_STATIC" />
 			<Add directory="../../extlib/SFML/include" />
-			<Add directory="../../extlib/Catch" />
+			<Add directory="C:/boost_1_62_0/" />
 		</Compiler>
 		<Linker>
 			<Add option="-mwindows" />
