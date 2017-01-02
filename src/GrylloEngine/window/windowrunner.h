@@ -7,10 +7,10 @@
 #include <string>
 #include <thread>
 #include <SFML/Graphics.hpp>
-#include "threadstate.h"
-#include "contexts.hpp"
-#include "widgets.h"
-#include "windowhelpers.h"
+#include "../context/threadstate.h"
+#include "../context/contexts.hpp"
+#include "../widget/widgets.h"
+#include "../event/eventhandling.h"
 #include <boost/optional.hpp>
 
 /* All the backend of GrylloEngine is powered by SFML by now.
@@ -34,7 +34,7 @@ const uint32_t GRYL_DEF_FPS    = 60;
    - Dedicated for mostly Graphical tasks (though has an ability to run processing too).
 */
 
-class WindowRunner : public Widget
+class WindowRunner : public EventDispatcher
 {
 private:
     static unsigned int wnd_counter;
@@ -47,6 +47,7 @@ protected:
     // SFML Window properties
     bool wnd_vertSyncEnabled = true;
     uint32_t wnd_fps = GRYL_DEF_FPS;
+
     // These 4 should not be used. Now they're here because of the window creation difficulty.
     VideoMode wndVidMode;
     std::string wndTitle;
@@ -61,18 +62,18 @@ protected:
         If renderingInThread is specified, rendering happens in renderingLoop,
         If not, all the processing and rendering happens in mainLoop. */
 
-    std::function< void(std::weak_ptr<WindowRunner>) > mainLoopProc;
-    std::function< void(std::weak_ptr<WindowRunner>) > renderingLoopProc;
+    std::function< void(WindowRunner&) > mainLoopProc;
+    std::function< void(WindowRunner&) > renderingLoopProc;
 
     // The Thread Objects of the window. Usually only 1st is used.
     std::thread mainThread;
     std::thread rendThread;
 
     // The EventLoop procedures.
-    static void defaultMainUnifiedLoop( std::weak_ptr<WindowRunner> ); // Use this when SingleThreading
+    static void defaultMainUnifiedLoop( WindowRunner& ); // Use this when SingleThreading
 
-    static void defaultProcessLoop( std::weak_ptr<WindowRunner> );     // Use these 2 when MultiThreading.
-    static void defaultRenderingLoop( std::weak_ptr<WindowRunner> );
+    static void defaultProcessLoop( WindowRunner& );     // Use these 2 when MultiThreading.
+    static void defaultRenderingLoop( WindowRunner& );
 
     // Delete the default copy constructors.
     WindowRunner(const WindowRunner&) = delete;
@@ -113,7 +114,7 @@ public:
                  bool startListenerInSeparateThread = false,
                  bool useRenderThread = false,
                  //const std::function< void(std::shared_ptr<WindowRunner>) >& _mainLoop = defaultMainUnifiedLoop,
-                 const std::function< void(std::weak_ptr<WindowRunner>) >& _renderLoop = defaultRenderingLoop);
+                 const std::function< void(WindowRunner&) >& _renderLoop = defaultRenderingLoop);
     ~WindowRunner();
 
     void create(bool startListener = false,
@@ -124,7 +125,7 @@ public:
                 bool startListenerInSeparateThread = false,
                 bool useRenderThread = false,
                 //const std::function< void(std::shared_ptr<WindowRunner>) >& _mainLoop = defaultMainUnifiedLoop,
-                const std::function< void(std::weak_ptr<WindowRunner>) >& _renderLoop = defaultRenderingLoop);
+                const std::function< void(WindowRunner&) >& _renderLoop = defaultRenderingLoop);
 
     //original window method's
     //boost::optional<sf::RenderWindow&> getSfmlWindowRef(); // use only when modifying the inner contents.

@@ -1,6 +1,6 @@
 #include <iostream>
-#include "GrylloEngine/logger.h"
-#include "GrylloEngine/windowrunner.h"
+#include "GrylloEngine/helpers/logger.h"
+#include "GrylloEngine/window/windowrunner.h"
 #include <SFML/Graphics.hpp>
 #include "world.h"
 #include "entity.h"

@@ -1,5 +1,5 @@
 #include "entity.h"
-#include "GrylloEngine/logger.h"
+#include "GrylloEngine/helpers/logger.h"
 
 size_t Entity::counter = 0; //initialize
 

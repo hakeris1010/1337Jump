@@ -1,5 +1,5 @@
 #include "windowrunner.h"
-#include "logger.h"
+#include "../helpers/logger.h"
 //#include <exception>
 
 namespace Gryl
@@ -8,16 +8,15 @@ namespace Gryl
 unsigned int WindowRunner::wnd_counter = 0;
 
 // ============ SingleThread Unified Loop =========== //
-void WindowRunner::defaultMainUnifiedLoop( std::weak_ptr<WindowRunner> winp ) // Use this when SingleThreading
+void WindowRunner::defaultMainUnifiedLoop( WindowRunner& win ) // Use this when SingleThreading
 {
-    auto win = std::make_shared<WindowRunner>(winp);
     // Startup operations
-    if(win->window == nullptr)
-        win->createSfmlWindow();
+    if(win.window == nullptr)
+        win.createSfmlWindow();
     else
-        throw std::runtime_error("win->window is already created!");
+        throw std::runtime_error("win.window is already created!");
 
-    std::shared_ptr<sf::RenderWindow> sfrw = win->getSfmlWindowPtr();
+    std::shared_ptr<sf::RenderWindow> sfrw = win.getSfmlWindowPtr();
     //sfrw.setActive(true);
 
     //Cosmetic operations
@@ -29,7 +28,7 @@ void WindowRunner::defaultMainUnifiedLoop( std::weak_ptr<WindowRunner> winp ) //
         sf::Event event;
         while (sfrw->pollEvent(event))
         {
-            if (event.type == sf::Event::Closed || win->needToClose)
+            if (event.type == sf::Event::Closed || win.needToClose)
                 sfrw->close();
         }
 
@@ -40,12 +39,12 @@ void WindowRunner::defaultMainUnifiedLoop( std::weak_ptr<WindowRunner> winp ) //
 }
 
 // ============    MultiThreaded Loops    =========== //
-void WindowRunner::defaultProcessLoop( std::weak_ptr<WindowRunner> win )     // Use these 2 when MultiThreading.
+void WindowRunner::defaultProcessLoop( WindowRunner& win )     // Use these 2 when MultiThreading.
 {
 
 }
 
-void WindowRunner::defaultRenderingLoop( std::weak_ptr<WindowRunner> win )
+void WindowRunner::defaultRenderingLoop( WindowRunner& win )
 {
 
 }
@@ -66,7 +65,7 @@ WindowRunner::WindowRunner(bool startListener,
                            bool startListenerInSeparateThread,
                            bool useRenderThread,
                            //const std::function< void(std::shared_ptr<WindowRunner>) >& _mainProc,
-                           const std::function< void(std::weak_ptr<WindowRunner>) >& _renderLoop )
+                           const std::function< void(WindowRunner&) >& _renderLoop )
 {
     create(startListener, title, mode, style, setts, startListenerInSeparateThread, useRenderThread/*, _mainProc*/, _renderLoop);
 }
@@ -102,7 +101,7 @@ void WindowRunner::create( bool startListener,
                            bool startListenerInSeparateThread,
                            bool useRenderThread,
                            //const std::function< void(std::shared_ptr<WindowRunner>) >& _mainProc,
-                           const std::function< void(std::weak_ptr<WindowRunner>) >& _renderProc)
+                           const std::function< void(WindowRunner&) >& _renderProc)
 {
     //window.setVerticalSyncEnabled(wnd_vertSyncEnabled);
     //window.setFramerateLimit(wnd_fps);
@@ -169,7 +168,7 @@ unsigned int WindowRunner::getWindowInstanceCount() const{
 
 void WindowRunner::startListening()
 {
-    if( useRenderingThread ) // Spawn the thread for rendering. This renderer can be run ONLY IN A THREAD.
+    /*if( useRenderingThread ) // Spawn the thread for rendering. This renderer can be run ONLY IN A THREAD.
     {
         HLOGF("Launching RenderThread...\n");
         rendThread = std::thread( renderingLoopProc, std::shared_ptr<WindowRunner>( this ) );
@@ -178,13 +177,13 @@ void WindowRunner::startListening()
     if(listenInSeparateThread) // If processer is set to run on a different thread.
     {
         HLOGF("Launching MainLoopThread...\n");
-        mainThread = std::thread( mainLoopProc, std::weak_ptr<WindowRunner>( this ) );
+        mainThread = std::thread( mainLoopProc, WindowRunner&( this ) );
     }
     else // If processer is set to run on a caller's thread (Current one).
     {
         HLOGF("Calling MainLoop proc.\n");
-        mainLoopProc( std::weak_ptr<WindowRunner>( this ) );
-    }
+        mainLoopProc( WindowRunner&( this ) );
+    }*/
 
     HLOGF("Listener returned.\n");
 }
