@@ -1,0 +1,25 @@
+2017-01-25: Version v0.3 Pre.
+Commiting serious changes. Made great changes to project tree, with GrylloEngine restructurised to fit the standard of a game engine. 
+
+Version still PRE.
+
+Changes:
+* Improved Automake (But still useless, cause haven't added support for external libs (duh))
+  (Use CodeBlocks project for making :D )
+* GrylloEngine Changes:
+  ** Changed threading model:
+     The Main Window (WindowRunner class) will use 2 base threads: 
+     - Render Thread (The one which called the startListening() method), which renders the stuff to the window.
+     - Event Thread (Started by WindowRunner backend), which processes events send to it via pipe from Render Thread.
+     - Additional threads might be spawned for additional processing by some widgets (though this is not promotable).
+     - The game workings must be done in threads unrelated to GrylloEngine framework.
+
+   ** Changed Event Flow model:
+      - Events now flow from Base Window (WindowRunner) to the child elements by calling processEvent() method on each of the childs.
+      - This is the inner workings. On user side however, in the future it will be able to use Widgets with their onEvent() inheritable methods.
+
+        For example, we have a widget Button. User has inherited from it and overrided onButtonPress method. It receives some backend event from Base WindowRunner through processEvent() method. 
+        Let's say it received MouseMoved event. The processing indicated that Mouse has been clicked on this Button! 
+        Then Button's inherited class onButtonPress() method is called, and some stuff set by user happens. 
+        Also this ButtonPress generates a FrontEnd event which can propagate to Widgets above this button! But this hasn't yet been implemented, and it will be a loooong time till it gets.
+ 
