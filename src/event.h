@@ -3,11 +3,11 @@
 
 #include <SFML/Window.hpp>
 
-// Gryl::Event class, wrapper over SFML Event
-struct Event
+// Gryl::RawEvent class, wrapper over SFML Event
+struct RawEvent
 {
-    Event(sf::Event ev) : e(ev) {}
-    virtual ~Event();
+    RawEvent(sf::Event ev) : e(ev) {}
+    virtual ~RawEvent();
     sf::Event e;
 };
 

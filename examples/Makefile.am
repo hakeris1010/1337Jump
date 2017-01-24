@@ -1,2 +1,7 @@
-exampledir = $(datarootdir)/doc/@PACKAGE@
-example_DATA = sample1.dat 
+examplesdir = $(datadir)/examples/@PACKAGE@
+examples_PROGRAMS = jumpgame
+
+jumpgame_SOURCES = main.cpp \
+                   entity.cpp \
+                   jumper.cpp \
+                   world.cpp 

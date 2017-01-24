@@ -11,6 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc_mingw-w64_compiler_32-bit" />
+				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -32,7 +33,7 @@
 			<Add option="-Wall" />
 			<Add option="-std=c++14" />
 			<Add option="-DSFML_STATIC" />
-			<Add directory="../../extlib/SFML/include" />
+			<Add directory="../../../extlib-sample/SFML/include" />
 			<Add directory="C:/boost_1_62_0/" />
 			<Add directory="../../src" />
 		</Compiler>
@@ -47,8 +48,8 @@
 			<Add option="-lopengl32" />
 			<Add option="-lglu32" />
 			<Add option="-lwinmm" />
-			<Add directory="../../extlib/SFML/lib" />
-			<Add directory="../../extlib/SFML/extlibs/libs-mingw/x86" />
+			<Add directory="../../../extlib-sample/SFML/lib" />
+			<Add directory="../../../extlib-sample/SFML/extlibs/libs-mingw/x86" />
 		</Linker>
 		<Unit filename="../../examples/entity.cpp" />
 		<Unit filename="../../examples/entity.h" />
@@ -58,24 +59,25 @@
 		<Unit filename="../../examples/resources.h" />
 		<Unit filename="../../examples/world.cpp" />
 		<Unit filename="../../examples/world.h" />
-		<Unit filename="../../src/GrylloEngine/context/contexts.hpp" />
-		<Unit filename="../../src/GrylloEngine/context/threadstate.cpp" />
-		<Unit filename="../../src/GrylloEngine/context/threadstate.h" />
-		<Unit filename="../../src/GrylloEngine/event/event.cpp" />
-		<Unit filename="../../src/GrylloEngine/event/event.hpp" />
-		<Unit filename="../../src/GrylloEngine/event/eventhandling.cpp" />
-		<Unit filename="../../src/GrylloEngine/event/eventhandling.h" />
-		<Unit filename="../../src/GrylloEngine/helpers/logger.cpp" />
-		<Unit filename="../../src/GrylloEngine/helpers/logger.h" />
-		<Unit filename="../../src/GrylloEngine/widget/widgets.cpp" />
-		<Unit filename="../../src/GrylloEngine/widget/widgets.h" />
-		<Unit filename="../../src/GrylloEngine/window/windowimpl.cpp" />
-		<Unit filename="../../src/GrylloEngine/window/windowimpl.hpp" />
-		<Unit filename="../../src/GrylloEngine/window/windowrunner.cpp" />
-		<Unit filename="../../src/GrylloEngine/window/windowrunner.h" />
+		<Unit filename="../../src/contexts.h" />
+		<Unit filename="../../src/event.cpp" />
+		<Unit filename="../../src/event.h" />
+		<Unit filename="../../src/eventhandling.cpp" />
+		<Unit filename="../../src/eventhandling.h" />
+		<Unit filename="../../src/helpers/logger.cpp" />
+		<Unit filename="../../src/helpers/logger.h" />
+		<Unit filename="../../src/loader.cpp" />
 		<Unit filename="../../src/loader.h" />
 		<Unit filename="../../src/physics.cpp" />
 		<Unit filename="../../src/physics.h" />
+		<Unit filename="../../src/threadstate.cpp" />
+		<Unit filename="../../src/threadstate.h" />
+		<Unit filename="../../src/widgets.cpp" />
+		<Unit filename="../../src/widgets.h" />
+		<Unit filename="../../src/windowimpl/windowimpl.cpp" />
+		<Unit filename="../../src/windowimpl/windowimpl.h" />
+		<Unit filename="../../src/windowrunner.cpp" />
+		<Unit filename="../../src/windowrunner.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

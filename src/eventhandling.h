@@ -4,7 +4,7 @@
 //#include <function>
 #include <memory>
 #include <SFML/Graphics.hpp>
-#include "event.hpp"
+#include "event.h"
 
 namespace Gryl
 {
@@ -16,7 +16,7 @@ struct CustomEventDeterminer
     CustomEventDeterminer(){ }
     virtual ~CustomEventDeterminer(){ }
 
-    virtual long checkEvent( Widget& par, const Event& e )=0; //we return long value NonZero if event occured.
+    virtual long checkEvent( Widget& par, const RawEvent& e )=0; //we return long value NonZero if event occured.
 
     //Protected (or private) stuff is intended to be inheriatable.
 };
@@ -33,7 +33,7 @@ struct WidgetEventListener
     virtual ~WidgetEventListener(){ }
 
     // The function performing specific Action based on Event happened.
-    virtual void onEvent( Widget& par, const Event& e ) = 0;
+    virtual void onEvent( Widget& par, const RawEvent& e ) = 0;
 
     protected:
     // We call this one on onEvent(), passing the got event, and get TRUE if specific custom EV happen'd (e.g. button pressed 3 timez).
@@ -46,12 +46,12 @@ struct WidgetEventListener_Importable : public WidgetEventListener
 {
     WidgetEventListener_Importable(){ }
     WidgetEventListener_Importable(std::shared_ptr<CustomEventDeterminer>,
-                                   std::function< void( Widget& par, const Event& ) >);
+                                   std::function< void( Widget& par, const RawEvent& ) >);
 
-    void onEvent( Widget&, const Event& );
+    void onEvent( Widget&, const RawEvent& );
 
     private:
-    std::function< void( Widget&, const Event& ) > onEvent_Ptr;
+    std::function< void( Widget&, const RawEvent& ) > onEvent_Ptr;
 };
 
 }

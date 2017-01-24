@@ -5,17 +5,25 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "../event/eventhandling.h"
+#include "eventhandling.h"
 
 namespace Gryl
 {
+// The object which can create and dispatch events. Example - native windows.
+class EventDispatcher
+{
+public:
+    //Constructors are bassic.
+    virtual ~EventDispatcher(){}
+};
+
 struct WidgetProperties
 {
     std::string name, type;
     // Some more serious stuff to come.
 };
 
-class Widget
+class Widget : public EventDispatcher
 {
 protected:
     std::shared_ptr< Widget > parent = nullptr;
@@ -36,19 +44,11 @@ public:
     virtual void addInnerWidget( std::shared_ptr<Widget> const& wdg );
     virtual void addListener( std::shared_ptr<WidgetEventListener> const& lst );
 
-    virtual void processEvent(const Event& ev){ }
+    virtual void processEvent(const RawEvent& ev){ }
     virtual void updateView(){ }
 
     const std::vector< std::shared_ptr<Gryl::Widget> >& getInnerWidgetVector() const;
     unsigned int getWidgetInstanceCount() const;
-};
-
-// The object which can create and dispatch events. Example - native windows.
-class EventDispatcher : public Widget
-{
-public:
-    //Constructors are bassic.
-    virtual ~EventDispatcher(){}
 };
 
 }

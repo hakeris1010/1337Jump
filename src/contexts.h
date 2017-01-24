@@ -17,6 +17,7 @@ public:
 
     friend class WindowRunner;
 };
+
 }
 
 #endif // CONTEXTS_HPP_INCLUDED

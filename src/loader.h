@@ -1,7 +1,7 @@
 #ifndef LOADER_H_INCLUDED
 #define LOADER_H_INCLUDED
 
-#include "resources.h"
+//#include "resources.h"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 

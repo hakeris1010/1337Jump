@@ -7,18 +7,29 @@
 #include <string>
 #include <thread>
 #include <SFML/Graphics.hpp>
-#include "../context/threadstate.h"
-#include "../context/contexts.hpp"
-#include "../widget/widgets.h"
-#include "../event/eventhandling.h"
+#include "threadstate.h"
+#include "contexts.h"
+#include "widgets.h"
+#include "eventhandling.h"
 #include <boost/optional.hpp>
 
 /* All the backend of GrylloEngine is powered by SFML by now.
-    - TODOS: Move to more efficient ones, like SDL.
+    - TODOS: Move to more efficient ones, like GLEW/GLFW (And use raw OpenGL (duh)).
 */
+
+#define GRYL_WINDOWRUNNER_VERSION "v0.3 pre"
 
 namespace Gryl
 {
+struct WindowProperties : public WidgetProperties
+{
+
+};
+
+// TODO: This is TEMP! To be moved into WindowImpl section.
+static WindowProperties defProps;
+
+// Several defines of this window.
 const uint32_t GRYL_DEF_WIDTH  = 300;
 const uint32_t GRYL_DEF_HEIGHT = 300;
 const uint32_t GRYL_DEF_BPP    = 32;
@@ -26,9 +37,9 @@ const uint32_t GRYL_DEF_FPS    = 60;
 
 /* GrylloEngine implementation of a Window Instance Class.
    -----------------------------------------------------
-   - It's The Topmost Widget (All nested widgets are just graphical stuff inside this window)
-   - Inherited from Widget for backwards comp and future implementations of WxWidgets-like API (Now NOT.)
-   - The only Widget capable which is an EventPump, capable of getting events from the OS,
+   - It's The Topmost EventDispatcher (All nested widgets are just graphical stuff inside this window)
+   - Inherited from EventDispatcher for backwards comp and future implementations of WxWidgets-like API (Now NOT.)
+   - The only EventDispatcher capable which is an EventPump, capable of getting events from the OS,
      through an inner implementation, this case a SFML window. (Might implement GLEW, SDL, or GTK lib's window in da future).
 
    - Dedicated for mostly Graphical tasks (though has an ability to run processing too).
@@ -37,12 +48,17 @@ const uint32_t GRYL_DEF_FPS    = 60;
 class WindowRunner : public EventDispatcher
 {
 private:
+    // Delete the default copy constructors.
+    WindowRunner(const WindowRunner&) = delete;
+    WindowRunner(WindowRunner&&) = delete;
+    WindowRunner& operator=(const WindowRunner&) = delete;
+    WindowRunner& operator=(WindowRunner&&) = delete;
+
     static unsigned int wnd_counter;
 
 protected:
     // Base window of SFML
     std::shared_ptr<sf::RenderWindow> window = nullptr;
-    std::shared_ptr<GraphicThreadState> thr_st = nullptr;
 
     // SFML Window properties
     bool wnd_vertSyncEnabled = true;
@@ -55,31 +71,33 @@ protected:
     sf::ContextSettings wndSetts;
 
     // Threading settings.
-    bool useRenderingThread = false;
-    bool listenInSeparateThread = false;
+    bool useEventThread = false;
+
+    std::shared_ptr<GraphicThreadState> graphThst = nullptr;
+    std::shared_ptr<EventThreadState> eventThst = nullptr;
+
+    std::vector<std::shared_ptr<WindowRunner>> childWindows;
+    std::vector<std::shared_ptr<Widget>> innerWidgets;
+
+    // The Thread Objects of the window.
+    //std::thread mainRenderThread; // Not used. If this window is wanted in thread, startListening is called in a thread expicitly.
+    std::thread eventThread;
+
+    // Misc settings.
+    bool allowDuplicateReferences = true; // Do we allow the duplicate references in child vectors.
 
     /* Our main loop functions.
-        If renderingInThread is specified, rendering happens in renderingLoop,
-        If not, all the processing and rendering happens in mainLoop. */
+        If useEventThread is specified, events are processed in a eventLoopProc, running in separate thread.
+        If not, all the processing and rendering happens in mainRenderLoopProc, running in current thread. */
 
-    std::function< void(WindowRunner&) > mainLoopProc;
-    std::function< void(WindowRunner&) > renderingLoopProc;
+    std::function< void(WindowRunner&) > mainRenderLoopProc;
+    std::function< void(WindowRunner&) > eventLoopProc;
 
-    // The Thread Objects of the window. Usually only 1st is used.
-    std::thread mainThread;
-    std::thread rendThread;
+    // The Default Loop procedures.
+    static void defaultUnifiedLoopProc( WindowRunner& );    // Events and Rendering in 1 thread
 
-    // The EventLoop procedures.
-    static void defaultMainUnifiedLoop( WindowRunner& ); // Use this when SingleThreading
-
-    static void defaultProcessLoop( WindowRunner& );     // Use these 2 when MultiThreading.
-    static void defaultRenderingLoop( WindowRunner& );
-
-    // Delete the default copy constructors.
-    WindowRunner(const WindowRunner&) = delete;
-    WindowRunner(WindowRunner&&) = delete;
-    WindowRunner& operator=(const WindowRunner&) = delete;
-    WindowRunner& operator=(WindowRunner&&) = delete;
+    static void defaultMainRenderLoopProc( WindowRunner& ); // Events and Rendering in separate threads.
+    static void defaultEventLoopProc( WindowRunner& );
 
     // Runtime Fields
     bool needToClose = false;
@@ -111,10 +129,7 @@ public:
                  const VideoMode& mode = VideoMode(GRYL_DEF_WIDTH, GRYL_DEF_HEIGHT, GRYL_DEF_BPP),
                  uint32_t style = sf::Style::Close,
                  const sf::ContextSettings& setts = sf::ContextSettings(),
-                 bool startListenerInSeparateThread = false,
-                 bool useRenderThread = false,
-                 //const std::function< void(std::shared_ptr<WindowRunner>) >& _mainLoop = defaultMainUnifiedLoop,
-                 const std::function< void(WindowRunner&) >& _renderLoop = defaultRenderingLoop);
+                 const WindowProperties& props = defProps);
     ~WindowRunner();
 
     void create(bool startListener = false,
@@ -122,19 +137,15 @@ public:
                 const VideoMode& mode = VideoMode(GRYL_DEF_WIDTH, GRYL_DEF_HEIGHT, GRYL_DEF_BPP),
                 uint32_t style = sf::Style::Close,
                 const sf::ContextSettings& setts = sf::ContextSettings(),
-                bool startListenerInSeparateThread = false,
-                bool useRenderThread = false,
-                //const std::function< void(std::shared_ptr<WindowRunner>) >& _mainLoop = defaultMainUnifiedLoop,
-                const std::function< void(WindowRunner&) >& _renderLoop = defaultRenderingLoop);
+                const WindowProperties& props = defProps);
 
     //original window method's
     //boost::optional<sf::RenderWindow&> getSfmlWindowRef(); // use only when modifying the inner contents.
     //boost::optional<const sf::RenderWindow&> getSfmlWindowConst() const;
 
-    std::shared_ptr<sf::RenderWindow> getSfmlWindowPtr(); // use only when modifying the inner contents.
-    const std::shared_ptr<const sf::RenderWindow>& getSfmlWindowConstPtr() const;
-
+    std::shared_ptr<sf::RenderWindow> getSfmlWindowPtr() const; // use only when modifying the inner contents.
     std::shared_ptr<GraphicThreadState> getGraphicThreadState() const;
+    std::shared_ptr<EventThreadState> getEventThreadState() const;
 
     //This one starts the threads or just launches loopProc if no threading.
     void startListening();
@@ -142,13 +153,15 @@ public:
     //Possible to use this one only when multithreading.
     void stopAllThreads();
 
+    void attachChildWindow(const std::shared_ptr<WindowRunner>&);
+    void attachChildWidget(const std::shared_ptr<Widget>&);
+
+    // Others.
     unsigned int getWindowInstanceCount() const;
 
-    //overrided from Widget
-    //void addInnerWidget( Widget& widg );
-
     friend class WidgetEventListener;
-    friend class EventHandler;
+    friend class WidgetEventListener_Importable;
+    friend class CustomEventDeterminer;
 };
 
 }

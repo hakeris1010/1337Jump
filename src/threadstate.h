@@ -3,6 +3,8 @@
 
 #include <string>
 #include <memory>
+#include <mutex>
+#include <condition_variable>
 
 //GrylloEngine Thread state structures.
 namespace Gryl
@@ -16,10 +18,18 @@ struct ThreadState
     // some more.
 };
 
-struct GraphicThreadState : ThreadState
+struct GraphicThreadState : public ThreadState
 {
+    static std::mutex m_Mutex;
     std::shared_ptr<WindowRunner> currentWindow;
 };
+
+struct EventThreadState : public ThreadState
+{
+    static std::mutex m_Mutex;
+    std::shared_ptr<WindowRunner> currentWindow;
+};
+
 }
 
 //Extended: Jump Game's thread structure.

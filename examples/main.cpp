@@ -1,6 +1,6 @@
 #include <iostream>
-#include "GrylloEngine/helpers/logger.h"
-#include "GrylloEngine/window/windowrunner.h"
+#include "helpers/logger.h"
+#include "windowrunner.h"
 #include <SFML/Graphics.hpp>
 #include "world.h"
 #include "entity.h"
@@ -41,6 +41,28 @@ void GrylTest()
     Gryl::WindowRunner wr;
     wr.create(false, "Gryl::Test");
     wr.startListening();
+}
+
+void sfmlTest()
+{
+    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+    sf::CircleShape shape(100.f);
+    shape.setFillColor(sf::Color::Green);
+
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+        window.clear();
+        window.draw(shape);
+        window.display();
+    }
+
 }
 
 int main()
