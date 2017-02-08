@@ -20,13 +20,13 @@ struct ThreadState
 
 struct GraphicThreadState : public ThreadState
 {
-    static std::mutex m_Mutex;
+    std::mutex m_Mutex;
     std::shared_ptr<WindowRunner> currentWindow;
 };
 
 struct EventThreadState : public ThreadState
 {
-    static std::mutex m_Mutex;
+    std::mutex m_Mutex;
     std::shared_ptr<WindowRunner> currentWindow;
 };
 

@@ -9,6 +9,8 @@
 
 namespace Gryl
 {
+class WindowRunner;
+
 // The object which can create and dispatch events. Example - native windows.
 class EventDispatcher
 {
@@ -29,13 +31,13 @@ protected:
     std::shared_ptr< Widget > parent = nullptr;
 
     WidgetProperties props;
-    std::vector< std::shared_ptr<Gryl::Widget> > innerWidgets; //inner widg3ts
+    std::vector< std::shared_ptr<Widget> > innerWidgets;
     std::vector< std::shared_ptr<WidgetEventListener> > listeners;
 
     static unsigned int Widg_counter;
 
 public:
-    Widget(std::shared_ptr< Widget > par3nt = nullptr);
+    Widget();
     Widget(std::shared_ptr< Widget > par3nt, const WidgetProperties&,
            const std::vector< std::shared_ptr<WidgetEventListener> >& = std::vector< std::shared_ptr<WidgetEventListener> >());
     virtual ~Widget();
@@ -44,11 +46,15 @@ public:
     virtual void addInnerWidget( std::shared_ptr<Widget> const& wdg );
     virtual void addListener( std::shared_ptr<WidgetEventListener> const& lst );
 
-    virtual void processEvent(const RawEvent& ev){ }
-    virtual void updateView(){ }
-
     const std::vector< std::shared_ptr<Gryl::Widget> >& getInnerWidgetVector() const;
     unsigned int getWidgetInstanceCount() const;
+
+    // These methods are totally overridable, and they are called directly from the parent.
+    // This is called from event processor thread, forwarding event from a parent.
+    virtual void processEvent(const RawEvent& ev)=0;
+
+    // A Draw() method must be called only from a Render Thread (The one with Active OpenGL Context). If called from any other thread, can cause malfunctions.
+    virtual void draw(WindowRunner& wr);
 };
 
 }

@@ -39,8 +39,8 @@ void uzdtest()
 void GrylTest()
 {
     Gryl::WindowRunner wr;
-    wr.create(false, "Gryl::Test");
-    wr.startListening();
+    wr.create(true, "Gryl::Test");
+    //wr.startListening();
 }
 
 void sfmlTest()

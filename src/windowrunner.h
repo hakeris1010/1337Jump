@@ -6,6 +6,8 @@
 #include <vector>
 #include <string>
 #include <thread>
+#include <mutex>
+#include <condition_variable>
 #include <SFML/Graphics.hpp>
 #include "threadstate.h"
 #include "contexts.h"
@@ -55,10 +57,12 @@ private:
     WindowRunner& operator=(WindowRunner&&) = delete;
 
     static unsigned int wnd_counter;
+    std::mutex mtx_staticWindowCounter;
 
-protected:
+//protected:
     // Base window of SFML
     std::shared_ptr<sf::RenderWindow> window = nullptr;
+    bool isWindowOpen = false;
 
     // SFML Window properties
     bool wnd_vertSyncEnabled = true;
@@ -71,43 +75,65 @@ protected:
     sf::ContextSettings wndSetts;
 
     // Threading settings.
-    bool useEventThread = false;
+    bool useRenderThread = true;
 
-    std::shared_ptr<GraphicThreadState> graphThst = nullptr;
-    std::shared_ptr<EventThreadState> eventThst = nullptr;
+    // TODO : This should be replaced with a Recursive Mutex.
+    std::mutex mtx_thisObjectSynchronized;
 
+    // These mutexes and CondVars are used for notifying threads waiting for window's close.
+    std::mutex close_mutex;
+    std::condition_variable close_condVar;
+
+    std::shared_ptr<GraphicThreadState> graphThst = std::make_shared<GraphicThreadState>();
+    std::shared_ptr<EventThreadState> eventThst = std::make_shared<EventThreadState>();
+
+    // The Thread Objects of the window.
+    std::thread renderThread;
+
+    // Childs.
     std::vector<std::shared_ptr<WindowRunner>> childWindows;
     std::vector<std::shared_ptr<Widget>> innerWidgets;
 
-    // The Thread Objects of the window.
-    //std::thread mainRenderThread; // Not used. If this window is wanted in thread, startListening is called in a thread expicitly.
-    std::thread eventThread;
-
     // Misc settings.
     bool allowDuplicateReferences = true; // Do we allow the duplicate references in child vectors.
+    bool closeChildsOnReturn = true;
 
     /* Our main loop functions.
-        If useEventThread is specified, events are processed in a eventLoopProc, running in separate thread.
+        If useRenderThread is specified, events are processed in a eventLoopProc, running in separate thread.
         If not, all the processing and rendering happens in mainRenderLoopProc, running in current thread. */
 
-    std::function< void(WindowRunner&) > mainRenderLoopProc;
-    std::function< void(WindowRunner&) > eventLoopProc;
+    std::function< void(WindowRunner&) > mainEventLoopProc;
+    std::function< void(WindowRunner&) > renderLoopProc;
 
     // The Default Loop procedures.
     static void defaultUnifiedLoopProc( WindowRunner& );    // Events and Rendering in 1 thread
 
-    static void defaultMainRenderLoopProc( WindowRunner& ); // Events and Rendering in separate threads.
-    static void defaultEventLoopProc( WindowRunner& );
+    static void defaultMainEventLoopProc( WindowRunner& ); // Events and Rendering in separate threads.
+    static void defaultRenderLoopProc( WindowRunner& );
 
     // Runtime Fields
-    bool needToClose = false;
 
-    //Others
-    void createSfmlWindow();
+    // BIG TODO: Make these Runtime Variables Read-Only to other threads beside rendering and events! Use another class for those threads.
+    volatile bool needToClose = false;
+    volatile bool needToStopListening = false;
+    volatile bool implCloseMessage = false;
+
+    volatile bool graphicsPausedByExternal = false;
+    volatile bool eventsPausedByExternal = false;
+
+    // Private Methods.
+    // These 2 MUST BE CALLED FROM A RENDERING THREAD!!!
+    void createWindowImpl(); // TODO <--- MOVE TO WindowImpl class.
+    void closeWindowImpl();
+
+    //Possible to use this one only when multithreading.
+    // This must be called FROM A RENDERING THREAD, THAT CALLED createWindowImpl()!!!
+    void stopAllThreads();
+    void closeChilds();
+
+    void reset();
 
 public:
-    WindowRunner();
-
     /* Constructor explanation:
         - startListenerInSeparateThread:
         1) if set, we'll run all WindowRunner's loops in separate threads:
@@ -124,34 +150,38 @@ public:
             * Uses defaultRenderingLoop if different function is not passed.
     */
 
-    WindowRunner(bool startListener,
+    WindowRunner();
+    WindowRunner(bool startListenerAndClose,
                  const std::string& title = std::string(),
                  const VideoMode& mode = VideoMode(GRYL_DEF_WIDTH, GRYL_DEF_HEIGHT, GRYL_DEF_BPP),
                  uint32_t style = sf::Style::Close,
                  const sf::ContextSettings& setts = sf::ContextSettings(),
                  const WindowProperties& props = defProps);
-    ~WindowRunner();
+    virtual ~WindowRunner();
 
-    void create(bool startListener = false,
+    void create(bool startListenerAndClose = false,
                 const std::string& title = std::string(),
                 const VideoMode& mode = VideoMode(GRYL_DEF_WIDTH, GRYL_DEF_HEIGHT, GRYL_DEF_BPP),
                 uint32_t style = sf::Style::Close,
                 const sf::ContextSettings& setts = sf::ContextSettings(),
                 const WindowProperties& props = defProps);
 
-    //original window method's
-    //boost::optional<sf::RenderWindow&> getSfmlWindowRef(); // use only when modifying the inner contents.
-    //boost::optional<const sf::RenderWindow&> getSfmlWindowConst() const;
+    //This one starts the Render and EventHandle threads or just launches UnifiedLoopProc if no inner threading.
+    void startWindowProcess();
+
+    //Pause and resume the Rendering and Event Handling.
+    void pauseRendering();
+    void resumeRendering();
+    void pauseAllRunningThreads();
+    void resumeAllRunningThreads();
+
+    //Stops the rendering and event handling, and closes the Impl window.
+    void close();
+    void postCloseMessage();
 
     std::shared_ptr<sf::RenderWindow> getSfmlWindowPtr() const; // use only when modifying the inner contents.
     std::shared_ptr<GraphicThreadState> getGraphicThreadState() const;
     std::shared_ptr<EventThreadState> getEventThreadState() const;
-
-    //This one starts the threads or just launches loopProc if no threading.
-    void startListening();
-
-    //Possible to use this one only when multithreading.
-    void stopAllThreads();
 
     void attachChildWindow(const std::shared_ptr<WindowRunner>&);
     void attachChildWidget(const std::shared_ptr<Widget>&);
