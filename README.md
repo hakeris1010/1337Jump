@@ -1,2 +1,2 @@
-# 1337Jump
-DoodleJump-like game built on SFML.
+# GrylloEngine
+A Game Engine based on SFML. Currently InDev.
